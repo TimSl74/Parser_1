@@ -2,15 +2,26 @@ import requests as r
 from bs4 import BeautifulSoup
 
 
-# Обработка стартовой страницы
-url = "https://gdz-shok.ru/gdz/klass_1/russki_yazik/"
+url = "https://gdz-shok.ru/gdz/klass_1/matematika/moro_volkova/"
 
 response = r.get(url).text
 soup = BeautifulSoup(response, "lxml")
-datas = soup.find_all("div", class_="book")
+datas_page = soup.find("ul", class_="numbers")
+"""
+print(datas_page)
+"""
 
+pages = []
 
+i = 0
+while i <= len(datas_page):
+    number_page = page.find("a").get("href")
+    pages.append(number_page)
+    i += 1
 
-# Сохранение промежуточных запросов в файлы json для проверки. Сами файлы потом нигде не используются
+print(pages)
+"""
 with open("test_2.json", "w") as file:
-    file.write(str(datas))
+    file.write(str(pages))
+"""
+# Переписать всё нахрен

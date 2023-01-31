@@ -77,6 +77,4 @@ for book in books:
     books_2.append(f"{url}{book}")
 books = books_2
 
-
-for book in books:
-    print(book)
+print(books)
