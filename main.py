@@ -36,7 +36,7 @@ for data in datas:
         pass
 
 
-# Убираем дублирующиеся элементы, которые почему-то возникают
+# Убираем дублирующиеся элементы, из-за их дублирования в html
 data_list_2 = []
 
 for data in data_list:
@@ -49,15 +49,34 @@ for data in data_list:
     print(data)
 """
 
-# Перебираем ссылки из data_list
+# Перебираем ссылки из data_list и получаем новые ссылки по предметам
 n = 0
+books = []
 while n < len(data_list)-1:
     response = r.get(data_list[n]).text
+    # print(data_list[n])
     soup = BeautifulSoup(response, "lxml")
-    with open(f"{str((data_list[n])[24::]).replace('/','_')}.json", "w") as file:
-        # Срез с 24 элемента, чтобы название каждого файла не начинолось с https:// и тд, а только предмет и класс
-        file.write(str(soup))
+    datas_book = soup.find("div", class_="book")
+    for book in datas_book:
+        url_book = datas_book.find("a").get("href")
+        books.append(url_book)
     n += 1
 
-# Нужно настроить запрос по ссылкам в сохраняемых json файлах,
-# либо отказатсья от сохранения файлов и работать с html напрямую
+
+# Убираем дубликаты
+books_2 = []
+for book in books:
+    if book not in books_2:
+        books_2.append(book)
+books = books_2
+
+
+# Добавляем адрес домашней страницы к локальным ссылкам
+books_2 = []
+for book in books:
+    books_2.append(f"{url}{book}")
+books = books_2
+
+
+for book in books:
+    print(book)
