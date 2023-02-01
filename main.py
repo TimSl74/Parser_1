@@ -124,7 +124,7 @@ for jpg in data_jpg:
     name = f'{str(jpg.replace("/", "_"))}.jpg'
     line = f"/Users/macbook/PycharmProjects/Parser_1/{name}"
     with open(fr"{line}", "wb") as file:
-        response = r.get(f"{jpg}")
+        response = r.get(f"{url}{jpg}")
         file.write(response.content)
         print("done")
 print("control point 7")
