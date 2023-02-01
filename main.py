@@ -95,7 +95,24 @@ for book in url_books:
         if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers":
             pages.append(f"{str(book)}{url_pages[n]}")
         n += 1
-
+"""
+with open("pages.json", "w") as file:
+    file.write(str(pages))
+"""
+data_jpg = []
 for page in pages:
-    print(page)
+    response = r.get(page).text
+    soup = BeautifulSoup(response, "lxml")
+    jpg_datas = soup.find("div", class_="ex")
+    url_jpg = jpg_datas.find("img").get("src")
+    data_jpg.append(f"{url}{url_jpg}")
 
+print(data_jpg)
+
+for jpg in data_jpg:
+    name = f'{str(jpg.replace("/", "_"))}.jpg'
+    line = f"/Users/macbook/PycharmProjects/Parser_1/{name}"
+    with open(fr"{line}", "wb") as file:
+        response = r.get(f"{jpg}")
+        file.write(response.content)
+        print("done")
