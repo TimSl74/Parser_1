@@ -1,7 +1,7 @@
 import requests as r
 from bs4 import BeautifulSoup
 import re
-
+print("control point 1")
 
 # Обработка стартовой страницы
 url = "https://gdz-shok.ru"
@@ -35,6 +35,7 @@ for data in datas:
             pass
     except:
         pass
+print("control point 2")
 
 # Убираем дублирующиеся элементы, из-за их дублирования в html
 data_list_2 = []
@@ -45,7 +46,7 @@ for data in data_list:
 
 data_list = data_list_2
 
-
+print("control point 3")
 # Перебираем ссылки из data_list и получаем новые ссылки по предметам
 n = 0
 books = []
@@ -71,11 +72,13 @@ books_2 = []
 for book in books:
     books_2.append(f"{url}{book}")
 url_books = books_2
+print("control point 4")
 """
 print(url_books)
 """
 # Перебираем книги, чтобы получить адрес каждой страницы в книге
 pages = []
+logs = []
 for book in url_books:
     response = r.get(book).text
     soup = BeautifulSoup(response, "lxml")
@@ -91,24 +94,32 @@ for book in url_books:
             url_pages.append(' '.join(re.findall(r'\"([^""]+)\"', word)))
 
     n = 0
-    while n < len(url_pages):
-        if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers":
-            pages.append(f"{str(book)}{url_pages[n]}")
-        n += 1
+    try:
+        while n < len(url_pages):
+            if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers" and url_pages[n] != "long_numbers":
+                pages.append(f"{str(book)}{url_pages[n]}")
+            n += 1
+    except:
+        logs.append(str(url_pages[n]))
 """
 with open("pages.json", "w") as file:
     file.write(str(pages))
 """
+with open("logs.json", "w") as file:
+    file.write(str(logs))
+
+print("control point 5")
 data_jpg = []
 for page in pages:
     response = r.get(page).text
     soup = BeautifulSoup(response, "lxml")
     jpg_datas = soup.find("div", class_="ex")
     url_jpg = jpg_datas.find("img").get("src")
-    data_jpg.append(f"{url}{url_jpg}")
+    data_jpg.append(f"{str(url_jpg)}")
+    print(f"control point 5.1 {page}")
 
 print(data_jpg)
-
+print("control point 6")
 for jpg in data_jpg:
     name = f'{str(jpg.replace("/", "_"))}.jpg'
     line = f"/Users/macbook/PycharmProjects/Parser_1/{name}"
@@ -116,3 +127,4 @@ for jpg in data_jpg:
         response = r.get(f"{jpg}")
         file.write(response.content)
         print("done")
+print("control point 7")
