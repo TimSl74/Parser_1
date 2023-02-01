@@ -1,5 +1,6 @@
 import requests as r
 from bs4 import BeautifulSoup
+import re
 
 
 # Обработка стартовой страницы
@@ -9,14 +10,14 @@ response = r.get(url).text
 soup = BeautifulSoup(response, "lxml")
 datas = soup.find_all("div", class_="td")
 
-
 # Сохранение промежуточных запросов в файлы json для проверки. Сами файлы потом нигде не используются
+"""
 with open("soup.json", "w") as file:
     file.write(str(soup))
 
 with open("datas.json", "w") as file:
     file.write(str(datas))
-
+"""
 
 # Поиск локальных ссылок на страницы по предметам
 data_list = []
@@ -35,7 +36,6 @@ for data in datas:
     except:
         pass
 
-
 # Убираем дублирующиеся элементы, из-за их дублирования в html
 data_list_2 = []
 
@@ -44,10 +44,7 @@ for data in data_list:
         data_list_2.append(data)
 
 data_list = data_list_2
-"""
-for data in data_list:
-    print(data)
-"""
+
 
 # Перебираем ссылки из data_list и получаем новые ссылки по предметам
 n = 0
@@ -62,7 +59,6 @@ while n < len(data_list)-1:
         books.append(url_book)
     n += 1
 
-
 # Убираем дубликаты
 books_2 = []
 for book in books:
@@ -70,11 +66,36 @@ for book in books:
         books_2.append(book)
 books = books_2
 
-
 # Добавляем адрес домашней страницы к локальным ссылкам
 books_2 = []
 for book in books:
     books_2.append(f"{url}{book}")
-books = books_2
+url_books = books_2
 
-print(books)
+print(url_books)
+
+# Перебираем книги, чтобы получить адрес каждой страницы в книге
+for book in url_books:
+    response = r.get(book).text
+    soup = BeautifulSoup(response, "lxml")
+    datas_page = soup.find_all("ul", class_="numbers")
+
+    url_pages = []
+    with open("test_2.json", "w") as file:
+        file.write(str(datas_page))
+    with open("test_2.json", "r") as file:
+        for word in file:
+            # Поиск локальной ссылки, заключённой между кавычек.
+            # Перебрать как ранее через find или find_all не получается
+            url_pages.append(' '.join(re.findall(r'\"([^""]+)\"', word)))
+
+    n = 0
+    pages = []
+    while n < len(url_pages):
+        if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers":
+            pages.append(f"{url_pages[n]}")
+        n += 1
+
+
+# Нужно совместить перебор страниц в привязке к конкретной книге
+    print(pages)

@@ -1,27 +1,37 @@
 import requests as r
 from bs4 import BeautifulSoup
+import re
 
-
-url = "https://gdz-shok.ru/gdz/klass_1/matematika/moro_volkova/"
+url = "https://gdz-shok.ru/gdz/klass_2/matematika/moro_uchebnik/"
 
 response = r.get(url).text
 soup = BeautifulSoup(response, "lxml")
-datas_page = soup.find("ul", class_="numbers")
-"""
-print(datas_page)
-"""
+datas_page = soup.find_all("ul", class_="numbers")
 
+
+"""
 pages = []
-
-i = 0
-while i <= len(datas_page):
-    number_page = page.find("a").get("href")
-    pages.append(number_page)
-    i += 1
+for data in datas_page:
+    datas_page_2 = data.find("a").get("href")
+    pages.append(datas_page_2)
 
 print(pages)
 """
+
+url_pages = []
 with open("test_2.json", "w") as file:
+    file.write(str(datas_page))
+with open("test_2.json", "r") as file:
+    for word in file:
+        url_pages.append(' '.join(re.findall(r'\"([^""]+)\"', word)))
+
+print(url_pages)
+n = 0
+pages = []
+while n < len(url_pages):
+    if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers":
+        pages.append(url_pages[n])
+    n += 1
+
+with open("pages.json", "w") as file:
     file.write(str(pages))
-"""
-# Переписать всё нахрен

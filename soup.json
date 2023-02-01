@@ -20,11 +20,11 @@
 <script async="" src="https://yandex.ru/ads/system/context.js"></script>
 <!-- Yandex.RTB R-A-351506-7 -->
 <script>window.yaContextCb.push(()=>{
-       Ya.Context.AdvManager.render({
-       type: 'floorAd',
-       blockId: 'R-A-351506-7'
-     })
-    })</script>
+     Ya.Context.AdvManager.render({
+      type: 'floorAd',
+      blockId: 'R-A-351506-7'
+    })
+  })</script>
 </head><body>
 <header>
 <!-- Yandex.Metrika counter -->
