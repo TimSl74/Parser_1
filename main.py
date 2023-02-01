@@ -71,10 +71,11 @@ books_2 = []
 for book in books:
     books_2.append(f"{url}{book}")
 url_books = books_2
-
+"""
 print(url_books)
-
+"""
 # Перебираем книги, чтобы получить адрес каждой страницы в книге
+pages = []
 for book in url_books:
     response = r.get(book).text
     soup = BeautifulSoup(response, "lxml")
@@ -90,12 +91,11 @@ for book in url_books:
             url_pages.append(' '.join(re.findall(r'\"([^""]+)\"', word)))
 
     n = 0
-    pages = []
     while n < len(url_pages):
         if 1 < len(str(url_pages[n])) and url_pages[n] != "numbers":
-            pages.append(f"{url_pages[n]}")
+            pages.append(f"{str(book)}{url_pages[n]}")
         n += 1
 
+for page in pages:
+    print(page)
 
-# Нужно совместить перебор страниц в привязке к конкретной книге
-    print(pages)
