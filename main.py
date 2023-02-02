@@ -116,7 +116,7 @@ for page in pages:
     jpg_datas = soup.find("div", class_="ex")
     url_jpg = jpg_datas.find("img").get("src")
     data_jpg.append(f"{str(url_jpg)}")
-    print(f"control point 5.1 {page}")
+    print(f'"{page}"')
 
 print(data_jpg)
 print("control point 6")
