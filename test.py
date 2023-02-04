@@ -119,5 +119,3 @@ print("control point 7")
     # line = f"/Users/macbook/PycharmProjects/Parser_1/Images/{name}"
     # Путь для Windows
     # line = f"C:/Users/Tayte/PycharmProjects/Parser_1/Images/{name}"
-
-# test commit from windows
