@@ -105,17 +105,16 @@ for page in pages:
     data_jpg.append(f"{str(url_jpg)}")
     print(f"control point 5.1 {page}")
 
-
+    # Путь для macOS
+    # line = f"/Users/macbook/PycharmProjects/Parser_1/Images/{name}"
+    # Путь для Windows
+    # line = f"C:/Users/Tayte/PycharmProjects/Parser_1/Images/{name}"
 for jpg in data_jpg:
     name = f'{str(jpg.replace("/", "_"))}'
     line = f"/Users/macbook/PycharmProjects/Parser_1/Images/{name}"
     with open(fr"{line}", "wb") as file:
         response = r.get(f"{url}{jpg}")
         file.write(response.content)
-        print("done")
+        print(f"done{jpg}")
 print("control point 7")
 
-    # Путь для macOS
-    # line = f"/Users/macbook/PycharmProjects/Parser_1/Images/{name}"
-    # Путь для Windows
-    # line = f"C:/Users/Tayte/PycharmProjects/Parser_1/Images/{name}"

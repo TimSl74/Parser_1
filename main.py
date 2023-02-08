@@ -1,6 +1,7 @@
 import requests as r
 from bs4 import BeautifulSoup
 import re
+
 print("control point 1")
 
 # Обработка стартовой страницы
